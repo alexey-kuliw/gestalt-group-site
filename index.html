@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <link href="./src/output.css" rel="stylesheet">
+    <script src="node_modules/@splidejs/splide/dist/js/splide.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body x-data="scrollNav()" @scroll.window="onScroll">
+    <div class="grid grid-cols-[300px_minmax(0,_1fr)] relative">
+        <div class="p-6 sticky top-0 max-h-screen">
+            <img src="images/logo.jpg" alt="" class="w-full">
+            <ul class="flex flex-col gap-y-8 mt-10">
+                <li>
+                    <a href="#about" 
+                        :class="active === 'about' ? 'text-amber-600' : ''" 
+                        @click.prevent="scrollTo('about')">Про групу</a>
+                </li>
+                <li>
+                    <a href="#team" 
+                        :class="active === 'team' ? 'text-amber-600' : ''" 
+                        @click.prevent="scrollTo('team')">Терапевти</a>
+                </li>
+                <li>
+                    <a href="#form" 
+                        :class="active === 'form' ? 'text-amber-600' : ''" 
+                        @click.prevent="scrollTo('form')">Залишити заявку</a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <div class="relative">
+                <div class="absolute bg-amber-800/40 bottom-0 flex items-center justify-center left-0 right-0 top-0 z-10">
+                    <h2 class="text-7xl text-white text-shadow-sm">Створи свою особистість</h2>
+                </div>
+                <section class="splide" aria-label="Splide Basic HTML Example">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            <li class="splide__slide">
+                                <div x-data="{ scrollY: 0 }" x-init="
+                                    window.addEventListener('scroll', () => {
+                                        scrollY = window.scrollY;
+                                    })
+                                    " class="relative h-[100vh] overflow-hidden">
+                                    <div :style="'transform: translateY(' + scrollY * 0.5 + 'px)'" 
+                                        class="absolute inset-0 bg-[url('../images/banner-1.jpg')] bg-cover bg-center z-0">
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="splide__slide">
+                                <div x-data="{ scrollY: 0 }" x-init="
+                                    window.addEventListener('scroll', () => {
+                                        scrollY = window.scrollY;
+                                    })
+                                    " class="relative h-[100vh] overflow-hidden">
+                                    <div :style="'transform: translateY(' + scrollY * 0.5 + 'px)'" 
+                                        class="absolute inset-0 bg-[url('../images/banner-2.jpg')] bg-cover bg-center z-0">
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="splide__slide">
+                                <div x-data="{ scrollY: 0 }" x-init="
+                                    window.addEventListener('scroll', () => {
+                                        scrollY = window.scrollY;
+                                    })
+                                    " class="relative h-[100vh] overflow-hidden">
+                                    <div :style="'transform: translateY(' + scrollY * 0.5 + 'px)'" 
+                                        class="absolute inset-0 bg-[url('../images/banner-3.jpg')] bg-cover bg-center z-0">
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+            <div class="mt-20" id="about">
+                <h2 class="text-4xl">Що таке терапевтична група?</h2>
+                <p class="mt-4">Терапевтична група — це безпечний простір, де учасники можуть ділитися своїми переживаннями, думками, почуттями та отримувати підтримку. У гештальт-підході ми фокусуємося на контакті — з собою, з іншими, з тим, що відбувається «тут і тепер».</p>
+                <p class="mt-4">Група допомагає побачити себе з боку, помітити свої звички у взаємодії з іншими людьми, відчути, що ти не один(одна) у своїх труднощах. Це місце, де можна бути собою — з усім, що в тобі є.</p>
+                <h2 class="mt-10 text-4xl">Кому підійде така група?</h2>
+                <ul class="list-disc mt-4 pl-5">
+                    <li>Тим, хто хоче краще розуміти себе та свої почуття</li>
+                    <li class="mt-4">Тим, хто переживає емоційні труднощі, кризу, втрату або розгубленість</li>
+                    <li class="mt-4">Тим, хто відчуває самотність або складнощі у спілкуванні</li>
+                    <li class="mt-4">Тим, хто вже має досвід терапії і хоче поглибити роботу в групі</li>
+                    <li class="mt-4">Тим, кому важливо бути почутим і побаченим справжнім</li>
+                </ul>
+            </div>
+            <div class="mt-20" id="team">
+                <h2 class="text-4xl text-center">Терапевти</h2>
+                <div class="flex justify-around gap-20 mt-20">
+                    <div class="max-w-lg text-center">
+                        <img src="images/oleksii.jpg" class="block rounded-full" alt="">
+                        <p class="mt-4">
+                            Я вірю, що кожна зустріч може бути живою, якщо в ній є чесність і відкритість. У групі я створюю простір, де можна не прикидатися, де дозволено відчувати, шукати, заплутуватись і знаходити. Це місце, де ми вчимось бути з собою — поруч з іншими.
+                        </p>
+                    </div>
+                    <div class="max-w-lg text-center">
+                        <img src="images/lada.jpg" class="block rounded-full" alt="">
+                        <p class="mt-4">
+                            Для мене група — це можливість побачити себе в очах інших, почути себе через голос і тишу. Я підтримую атмосферу поваги, прийняття й живого контакту. Тут не треба бути «правильним» — достатньо бути справжнім.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-20" id="form">
+                <section class="bg-white py-12 px-4 md:px-8">
+                    <div class="max-w-xl mx-auto">
+                        <h2 class="text-4xl text-center">Залишити заявку на участь</h2>
+                  
+                        <form class="space-y-5" action="#" method="POST">
+                            <div>
+                            <label for="name" class="block text-sm font-medium text-neutral-700 mb-1">Ім’я</label>
+                            <input type="text" id="name" name="name" required
+                                    class="w-full rounded border border-neutral-300 px-4 py-2 focus:border-amber-500 focus:ring-amber-500">
+                            </div>
+                    
+                            <div>
+                            <label for="contact" class="block text-sm font-medium text-neutral-700 mb-1">Email або Telegram</label>
+                            <input type="text" id="contact" name="contact" required
+                                    class="w-full rounded border border-neutral-300 px-4 py-2 focus:border-amber-500 focus:ring-amber-500">
+                            </div>
+                    
+                            <div>
+                            <label for="message" class="block text-sm font-medium text-neutral-700 mb-1">Кілька слів про себе (необов'язково)</label>
+                            <textarea id="message" name="message" rows="4"
+                                        class="w-full rounded border border-neutral-300 px-4 py-2 
+                                            focus:border-amber-500 focus:ring-amber-500"></textarea>
+                            </div>
+                    
+                            <div>
+                            <button type="submit"
+                                    class="w-full bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 px-4 rounded transition">
+                                Надіслати заявку
+                            </button>
+                            </div>
+                        </form>
+                    </div>
+                  </section>
+                  
+            </div>
+        </div>
+    </div>
+    <script>
+        function scrollNav() {
+            return {
+                active: '',
+                sections: ['about', 'form', 'team'],
+
+                onScroll() {
+                    const scrollPos = window.scrollY + window.innerHeight / 3;
+                    for (const id of this.sections) {
+                        const el = document.getElementById(id);
+                        if (el && el.offsetTop <= scrollPos) {
+                            this.active = id;
+                        }
+                    }
+                },
+
+                scrollTo(id) {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth' });
+                        this.active = id;
+                    }
+                }
+            }
+        }
+        document.addEventListener( 'DOMContentLoaded', function() {
+            var splide = new Splide( '.splide', {
+                autoplay: true,
+                rewind: true,
+                interval: 5000,
+                type   : 'fade',
+                arrows: false,
+                pagination: false,
+                speed: 1500
+            } );
+            splide.mount();
+        } );
+    </script>
+</body>
+</html>

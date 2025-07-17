@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@splidejs/splide": "^4.1.4",
+    "@tailwindcss/cli": "^4.1.11",
+    "tailwindcss": "^4.1.11"
+  }
+}

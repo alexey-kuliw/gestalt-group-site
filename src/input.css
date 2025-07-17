@@ -1,0 +1,6 @@
+@import "tailwindcss";
+@import "@splidejs/splide/css";
+
+@theme {
+    --default-font-family: "Roboto", sans-serif;
+}
