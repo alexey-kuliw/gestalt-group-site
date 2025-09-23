@@ -41,4 +41,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         "message" => "Некоректний метод відправки форми."
     ]);
 }
-<?php phpinfo(); ?>
