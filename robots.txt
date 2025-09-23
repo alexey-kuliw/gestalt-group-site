@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nichogo-osobistogo.com.ua/sitemap.xml
