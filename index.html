@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-    <link href="./src/output.css?v=2" rel="stylesheet">
+    <link href="./src/output.css?v=3" rel="stylesheet">
     <!-- <script src="./js/splide.min.js"></script> -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
@@ -134,36 +134,91 @@
                 <p class="mt-4">Група вже формується — залиш заявку, і ми розповімо більше.</p>
             </div>
 
-            <form class="space-y-6 lg:max-w-[80%] mt-20 mx-auto" action="send.php" method="post">
+            <form class="space-y-6 lg:max-w-[80%] mt-20 mx-auto" 
+                    x-data="contactForm()"
+                    @submit.prevent="submitForm">
                 <div class="floating-label relative">
                     <input type="text" id="name" name="name" required
-                            class="w-full border-b border-neutral-200 py-2 focus:border-amber-500 outline-0">
+                            class="w-full border-b border-neutral-200 py-2 focus:border-amber-500 outline-0"
+                            x-model="form.name">
                     <label for="name" class="absolute font-medium left-0 top-3 transition-all">Ім’я *</label>
                 </div>
 
                 <div class="floating-label relative">
                     <input type="text" id="contact" name="contact" required
-                            class="w-full border-b border-neutral-200 py-2 focus:border-amber-500 outline-0">
+                            class="w-full border-b border-neutral-200 py-2 focus:border-amber-500 outline-0"
+                            x-model="form.contact">
                     <label for="contact" class="absolute font-medium left-0 top-3 transition-all">Email, Telegram, або Номер телефону *</label>
                 </div>
 
                 <div class="floating-label relative">
-                    <textarea id="message" name="message" rows="4"
-                            class="w-full border-b border-neutral-200 py-2 focus:border-amber-500 outline-0" required></textarea>
+                    <textarea id="message" name="message" rows="4" required
+                            class="w-full border-b border-neutral-200 py-2 focus:border-amber-500 outline-0" 
+                            x-model="form.message"></textarea>
                     <label for="contact" class="absolute font-medium left-0 top-3 transition-all">Кілька слів про себе </label>
                 </div>
 
                 <div class="flex justify-center">
                     <button type="submit"
                             class="bg-amber-600 cursor-pointer hover:bg-amber-700 text-white font-medium py-4 px-8 rounded-full transition-colors">
-                        Надіслати заявку
+                        <span x-show="!loading">Надіслати заявку</span>
+                        <span x-show="loading">Відправка...</span>
                     </button>
+                </div>
+                <div x-show="message" x-text="message"
+                    class="text-center mt-4"
+                    :class="success ? 'text-green-600' : 'text-red-600'">
                 </div>
             </form>
 
             <img src="images/var-2/main-banner.jpg" class="block mt-20 mx-auto max-w-full" alt="">
         </div>
     </div>
+    <script>
+        function contactForm() {
+            return {
+                form: {
+                    name: '',
+                    contact: '',
+                    message: ''
+                },
+                loading: false,
+                message: '',
+                success: false,
+        
+                async submitForm() {
+                    this.loading = true;
+                    this.message = '';
+        
+                    try {
+                        let response = await fetch('send.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: new URLSearchParams(this.form).toString()
+                        });
+        
+                        let result = await response.json();
+        
+                        this.success = result.success;
+                        this.message = result.message;
+        
+                        if (result.success) {
+                            this.form.name = '';
+                            this.form.contact = '';
+                            this.form.message = '';
+                        }
+                    } catch (error) {
+                        this.success = false;
+                        this.message = 'Помилка: не вдалося відправити форму.';
+                    } finally {
+                        this.loading = false;
+                    }
+                }
+            }
+        }
+    </script>
    
 </body>
 </html>
