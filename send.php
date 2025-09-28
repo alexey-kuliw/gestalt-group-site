@@ -40,6 +40,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $mail->setFrom('alexey.kuliw@nichogo-osobistogo.com.ua', 'Website Form');
 
+        $mail->CharSet = 'UTF-8';
+        $mail->Encoding = 'base64';
+
+
         if ($replyToEmail) {
             $mail->addReplyTo($replyToEmail, $name);
         }
