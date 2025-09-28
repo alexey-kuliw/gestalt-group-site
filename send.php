@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $mail->Port       = 465;
 
 
-        $mail->setFrom('alexey.kuliw@nichogo-osobistogo.com.ua', 'Website Form');
+        $mail->setFrom('alexey.kuliw@nichogo-osobistogo.com.ua', 'Nichogo Osobistogo');
 
         $mail->CharSet = 'UTF-8';
         $mail->Encoding = 'base64';
