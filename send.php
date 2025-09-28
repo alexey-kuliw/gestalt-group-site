@@ -1,8 +1,10 @@
 <?php
-header('Content-Type: application/json; charset=utf-8');
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-$to = "alexey.kuliw@gmail.com";
-$subject = "Нова заявка з сайту";
+require 'vendor/autoload.php'; 
+
+header('Content-Type: application/json; charset=utf-8');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name    = isset($_POST["name"]) ? strip_tags(trim($_POST["name"])) : "";
@@ -17,22 +19,42 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    $body  = "Ім’я: $name\n";
-    $body .= "Контакт: $contact\n\n";
-    $body .= "Повідомлення:\n$message\n";
+    $mail = new PHPMailer(true);
 
-    $headers = "From: $name <$contact>\r\n";
-    $headers .= "Reply-To: $contact\r\n";
+    try {
+        $mail->isSMTP();
+        $mail->Host       = 'nichogo-osobistogo.com.ua';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'alexey.kuliw@nichogo-osobistogo.com.ua';
+        $mail->Password   = 'Mamanegorui2012';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = 465;
 
-    if (mail($to, $subject, $body, $headers)) {
+
+        $mail->setFrom('alexey.kuliw@nichogo-osobistogo.com.ua', 'Website Form');
+
+        // Кому
+        $mail->addAddress('alexey.kuliw@gmail.com');
+        // $mail->addAddress('alexey.kuliw@ecomitize.com');
+
+        // Куда отвечать
+        $mail->addReplyTo($contact, $name);
+
+        // Контент письма
+        $mail->isHTML(false);
+        $mail->Subject = "Нова заявка з сайту";
+        $mail->Body    = "Ім’я: $name\nКонтакт: $contact\n\nПовідомлення:\n$message";
+
+        $mail->send();
+
         echo json_encode([
             "success" => true,
             "message" => "Ваша заявка успішно надіслана!"
         ]);
-    } else {
+    } catch (Exception $e) {
         echo json_encode([
             "success" => false,
-            "message" => "Сталася помилка під час відправки. Спробуйте ще раз."
+            "message" => "Сталася помилка під час відправки: {$mail->ErrorInfo}"
         ]);
     }
 } else {
