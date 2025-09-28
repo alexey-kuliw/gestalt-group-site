@@ -9,6 +9,13 @@ header('Content-Type: application/json; charset=utf-8');
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name    = isset($_POST["name"]) ? strip_tags(trim($_POST["name"])) : "";
     $contact = isset($_POST["contact"]) ? strip_tags(trim($_POST["contact"])) : "";
+
+    if (filter_var($contact, FILTER_VALIDATE_EMAIL)) {
+        $replyToEmail = $contact;
+    } else {
+        $replyToEmail = null;
+    }
+
     $message = isset($_POST["message"]) ? strip_tags(trim($_POST["message"])) : "";
 
     if (empty($name) || empty($contact) || empty($message)) {
@@ -33,17 +40,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $mail->setFrom('alexey.kuliw@nichogo-osobistogo.com.ua', 'Website Form');
 
+        if ($replyToEmail) {
+            $mail->addReplyTo($replyToEmail, $name);
+        }
+
+
         // Кому
         $mail->addAddress('alexey.kuliw@gmail.com');
         // $mail->addAddress('alexey.kuliw@ecomitize.com');
 
-        // Куда отвечать
-        $mail->addReplyTo($contact, $name);
 
         // Контент письма
         $mail->isHTML(false);
         $mail->Subject = "Нова заявка з сайту";
-        $mail->Body    = "Ім’я: $name\nКонтакт: $contact\n\nПовідомлення:\n$message";
+        $mail->Body = "Ім’я: $name\nКонтакт: $contact\n\nПовідомлення:\n$message";
 
         $mail->send();
 
